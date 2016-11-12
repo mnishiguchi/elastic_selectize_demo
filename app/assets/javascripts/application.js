@@ -7,4 +7,5 @@
 window.app = window.app || {};
 
 // Expose our browerified modules.
-window.app.initGithubSearch = require('app/init_github_search');
+window.app.selectizeGithubSearch       = require('app/selectize_github_search');
+window.app.selectizeFeaturedProperties = require('app/selectize_featured_properties');

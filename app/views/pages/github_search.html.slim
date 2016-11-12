@@ -7,9 +7,11 @@
     ' powered by
     = link_to "selectize.js", "http://selectize.github.io/selectize.js/"
   .pages_github_search
+  
   hr
+  
   / Example selectize form
-  select#select-repo.repositories placeholder=("Pick a repository...") 
+  select#select-repo.repositories[placeholder="Pick a repository..."]
 
 javascript:
   $(document).on('turbolinks:load', function() {
@@ -17,7 +19,7 @@ javascript:
     function elementExist(id) { return $(id).length; }
   
     if ( elementExist('#select-repo') ) { 
-      window.app.initGithubSearch(); 
+      window.app.selectizeGithubSearch(); 
     }
   })
 

@@ -1,9 +1,9 @@
+// About Browserify
+// + https://github.com/substack/browserify-handbook#exports
+
 // About Selectize
 // + https://selectize.github.io/selectize.js/#demo-github
 // + https://github.com/selectize/selectize.js/blob/master/examples/github.html
-
-// About Browserify
-// + https://github.com/substack/browserify-handbook#exports
 
 // Github repository search api
 // + https://api.github.com/legacy/repos/search/:query
@@ -13,7 +13,7 @@
 window.require = require;
 
 module.exports = function() {
-    console.log("hello from selectize_form.js");
+    console.log("hello from selectize_github_search.js");
 
     $('#select-repo').selectize({
         valueField : 'url',
@@ -49,6 +49,7 @@ function load(query, callback) {
             callback();
         },
         success: res => {
+            console.log(res.repositories)
             callback(res.repositories.slice(0, 10));
         }
     });

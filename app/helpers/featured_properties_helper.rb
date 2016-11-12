@@ -38,7 +38,7 @@ module FeaturedPropertiesHelper
       "property_container_id",
       options_for_select(options, params[:property_container_id]),
       include_blank: true,
-      id: "select-featured-property-new",
+      id: "selectize_featured_properties",
       class: "form-control"
     )
   end

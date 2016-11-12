@@ -1,23 +1,27 @@
 class FeaturedPropertyAutocomplete < FeaturedPropertySearch
 
   def json
-    search_model.search(query, search_constraints)
-    # search_model.search(query, search_constraints).map do |result|
-    #   [
-    #     result.reading_type,
-    #     result.station_name
-    #   ]
-    # end.flatten.uniq.to_json
+    results = search_model.search(query, search_constraints)
+
+    puts
+    print "==>FeaturedPropertyAutocomplete: "
+    ap "total_count #{results.total_count}"
+    puts
+    print "  active_filters: "
+    ap active_filters
+    puts
+
+    {
+      results: results
+    }
   end
 
   private def search_constraints
     {
       match:        :word_start,
       misspellings: { below: 5 },
-      limit: 10,
       load:  false,
       where: where,
-      order: order,
     }
   end
 end

@@ -1,8 +1,9 @@
 = form_tag featured_properties_path, method: :get, remote:true do |f|
-  .input-group
-    = property_container_id_select_tag(params)
-    .input-group-btn
-      button.btn.btn-primary [type="submit"]
+  .row
+    .col-md-10
+      input#selectize_featured_properties [placeholder="Search keyword..."]
+    .col-md-2
+      button.btn.btn-primary.pull-right [type="submit"]
         = fa_icon("search")
   br
   .row
@@ -13,3 +14,13 @@
   br
   #advanced_search_fields
     = render "advanced_search_fields"
+
+javascript: 
+  $(document).on('turbolinks:load', function() {
+  
+    function elementExist(id) { return $(id).length; }
+  
+    if ( elementExist('#selectize_featured_properties') ) { 
+      window.app.selectizeFeaturedProperties(); 
+    }
+  })

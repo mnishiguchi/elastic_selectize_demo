@@ -19,6 +19,14 @@ class FeaturedPropertySearch
     # Invoke Searchkick's search method with our search constraints.
     @results ||= search_model.search(query, search_constraints)
 
+    puts
+    print "==>FeaturedPropertySearch: "
+    ap "total_count #{@results.total_count}"
+    puts
+    print "  active_filters: "
+    ap active_filters
+    puts
+
     # Wrap the information as a hash and pass it to PropertiesController.
     {
       results:        @results,
@@ -61,11 +69,13 @@ class FeaturedPropertySearch
 
   # This can be used for displaying active filters in UI.
   private def active_filters
-    slice = [
-      "q",
-      "sort_attribute",
-      "sort_order",
-    ]
-    search_params.to_h.slice(*slice).reject { |_, v| v.blank? }
+    @active_filters ||= begin
+      slice = [
+        "q",
+        "sort_attribute",
+        "sort_order",
+      ]
+      search_params.to_h.slice(*slice).reject { |_, v| v.blank? }
+    end
   end
 end
