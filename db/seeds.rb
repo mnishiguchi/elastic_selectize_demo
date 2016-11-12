@@ -10,8 +10,8 @@ end
 PropertyContainer.all.each do |container|
   30.times do
     container.featured_properties.create!(
-      :start_time   => Date.yesterday,
-      :end_date     => Date.tomorrow,
+      :start_at     => Date.yesterday,
+      :end_at       => Date.tomorrow,
       :notes        => Faker::Hacker.say_something_smart,
       :published_at => Time.zone.now
     )

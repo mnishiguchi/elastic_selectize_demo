@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20161112025606) do
   enable_extension "plpgsql"
 
   create_table "featured_properties", force: :cascade do |t|
-    t.datetime "end_date"
-    t.datetime "start_time"
+    t.datetime "end_at"
+    t.datetime "start_at"
     t.string   "notes"
     t.datetime "published_at"
     t.integer  "property_container_id"

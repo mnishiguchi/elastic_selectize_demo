@@ -1,18 +1,15 @@
 = form_tag featured_properties_path, method: :get, remote:true do |f|
+  .input-group
+    = property_container_id_select_tag(params)
+    .input-group-btn
+      button.btn.btn-primary [type="submit"]
+        = fa_icon("search")
+  br
   .row
-    .col-lg-11.col-xs-9
-      .property-container-selectize
-        = property_container_id_select_tag(params)
-    .col-lg-1.col-xs-2
-      = button_tag "Search", class: "btn btn-primary"
-      
-  .row.advanced-options
-    .col-lg-2.col-xs-3
-      .advanced-options-select
-        = publish_status_select_tag(params)
-    .col-lg-2.col-xs-3
-      .advanced-options-select
-        = active_status_select_tag(params)
-
+    .col-sm-6
+      = publish_status_select_tag(params)
+    .col-sm-6
+      = active_status_select_tag(params)
+  br
   #advanced_search_fields
     = render "advanced_search_fields"

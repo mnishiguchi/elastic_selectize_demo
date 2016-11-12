@@ -9,5 +9,8 @@
 #
 
 class PropertyContainer < ApplicationRecord
+
+  searchkick
+  
   has_many :featured_properties
 end

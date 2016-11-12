@@ -10,7 +10,7 @@ class FeaturedPropertiesController < ApplicationController
 
   # GET /featured_properties/autocomplete.json
   def autocomplete
-    render json: FeaturedPropertiesAutocomplete.new(search_params).json
+    render json: FeaturedPropertyAutocomplete.new(search_params).json
   end
 
   private def search_params

@@ -20,28 +20,10 @@ module FeaturedPropertiesHelper
     end
   end
 
-  # def reading_type_text(filter_hash)
-  #   if filter_hash[:reading_type].present?
-  #     "Reading type: #{filter_hash[:reading_type]}"
+  # def property_type_text(filter_hash)
+  #   if filter_hash[:property_type].present?
+  #     "type: #{filter_hash[:property_type]}"
   #   end
-  # end
-  #
-  # def reading_value_text(filter_hash)
-  #   min, max = filter_hash[:reading_value_min], filter_hash[:reading_value_max]
-  #   if min.present? && max.present?
-  #     "Reading value: #{min} to #{max}"
-  #   elsif min.present?
-  #     "Reading value: Min #{min}"
-  #   elsif max.present?
-  #     "Reading value: Max #{max}"
-  #   end
-  # end
-  #
-  # # TODO
-  # def reading_date_text(filter_hash)
-  #   # if filter_hash[:reading_type].present?
-  #   #   "Reading type: #{filter_hash[:reading_type]}"
-  #   # end
   # end
 
 
@@ -56,7 +38,8 @@ module FeaturedPropertiesHelper
       "property_container_id",
       options_for_select(options, params[:property_container_id]),
       include_blank: true,
-      id: "select-featured-property-new"
+      id: "select-featured-property-new",
+      class: "form-control"
     )
   end
 
@@ -65,7 +48,8 @@ module FeaturedPropertiesHelper
     select_tag(
       "publish_status",
       options_for_select(options, params[:publish_status]),
-      include_blank: true
+      include_blank: true,
+      class: "form-control"
     )
   end
 
@@ -74,7 +58,8 @@ module FeaturedPropertiesHelper
     select_tag(
       "active_status",
       options_for_select(options, params[:active_status]),
-      include_blank: true
+      include_blank: true,
+      class: "form-control"
     )
   end
 

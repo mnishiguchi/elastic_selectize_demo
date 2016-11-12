@@ -15,10 +15,6 @@ class FeaturedPropertySearch
     search_params[:q].presence || "*"
   end
 
-  # A wrapper of Searchkick's search method. We configure common behavior of
-  # all the searches here.
-  # arg0: a query string
-  # arg1: an search_params hash
   def search
     # Invoke Searchkick's search method with our search constraints.
     @results ||= search_model.search(query, search_constraints)
