@@ -15,7 +15,9 @@
 class FeaturedProperty < ApplicationRecord
 
   searchkick
-  
+
+  include Publishable
+
   belongs_to :property_container
 
   # Allows us to control what data is indexed for searching.
