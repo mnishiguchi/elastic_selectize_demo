@@ -1,0 +1,32 @@
+.card [style="min-width:60vw; margin-top: 1rem;"]
+  ul.list-group
+    li.list-group-item
+      label> Reading dates:
+      .row
+        .col-sm-6
+          = reading_year_select_tag(params, "reading_date_min_year")
+          = reading_month_select_tag(params, "reading_date_min_month")
+          = reading_day_select_tag(params, "reading_date_min_day")
+        .col-sm-6
+          = reading_year_select_tag(params, "reading_date_max_year")
+          = reading_month_select_tag(params, "reading_date_max_month")
+          = reading_day_select_tag(params, "reading_date_max_day")
+    li.list-group-item
+      label> Reading values:
+      .row
+        .col-sm-6
+          = text_field_tag("reading_value_min", "", placeholder: "Min")
+        .col-sm-6
+          = text_field_tag("reading_value_max", "", placeholder: "Max")
+    li.list-group-item
+      .row
+        .col-sm-6
+          label> Reading types:
+          = reading_type_select_tag(params)
+    li.list-group-item
+      label> Sorting:
+      .row
+        .col-sm-6
+          = sort_attribute_select_tag(params)
+        .col-sm-6
+          = sort_order_select_tag(params)
