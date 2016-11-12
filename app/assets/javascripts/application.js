@@ -7,4 +7,4 @@
 window.app = window.app || {};
 
 // Expose our browerified modules.
-window.app.initSelectizeForm = require('app/init_selectize_form');
+window.app.initGithubSearch = require('app/init_github_search');

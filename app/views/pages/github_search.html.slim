@@ -2,6 +2,7 @@
 
 .jumbotron  
   .h3 Github repository search
+  
   .text-muted
     ' powered by
     = link_to "selectize.js", "http://selectize.github.io/selectize.js/"
@@ -9,6 +10,16 @@
   hr
   / Example selectize form
   select#select-repo.repositories placeholder=("Pick a repository...") 
+
+javascript:
+  $(document).on('turbolinks:load', function() {
+  
+    function elementExist(id) { return $(id).length; }
+  
+    if ( elementExist('#select-repo') ) { 
+      window.app.initGithubSearch(); 
+    }
+  })
 
 css:
   /*
@@ -81,13 +92,3 @@ css:
     background-size: 16px 16px;
     margin: 0 3px 0 0;
   }
-  .icon.fork {
-  }
-  .icon.source {
-  }
-    
-    
-javascript:
-  $(document).on('turbolinks:load', function() {
-    window.app.initSelectizeForm();
-  })
