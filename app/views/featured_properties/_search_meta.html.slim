@@ -1,0 +1,11 @@
+css:
+  .search_meta span {
+    margin: 0 0.5rem 0 0;
+  }
+
+.navbar-text.search_meta
+  .h5
+    span [style="display:block;"]
+      = total_count_text(@featured_properties)
+    span.tag.tag-pill.tag-primary
+      = q_text(@active_filters)

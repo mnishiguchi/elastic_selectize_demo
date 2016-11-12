@@ -1,0 +1,28 @@
+- if @featured_properties.empty?
+  / http://v4-alpha.getbootstrap.com/components/card/
+  .card
+    .card-block
+      p.card-text Nothing was found...
+- else
+  = paginate @featured_properties
+  table.table-bordered[style="width:100%;"]
+    thead
+      tr
+        th Property Name
+        th Published
+        th Active Status
+        th Notes
+        th Start Date
+        th End Date
+        th
+    tbody
+      - @featured_properties.each do |featured_property|
+        tr
+          td = featured_property.property_container&.name
+          td = featured_property.published? ? "# {time_ago_in_words(featured_property.published_at)} ago" : "Unpublished"
+          td = featured_property.active_status.to_s.titleize
+          td = featured_property.notes
+          td = pretty_datetime(featured_property.start_date)
+          td = pretty_datetime(featured_property.end_date) || ""
+          td = link_to("Edit", "#")
+ 

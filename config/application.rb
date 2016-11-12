@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module ElasticAggsDemo
+module ElasticSelectizeDemo
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -15,6 +15,6 @@ module ElasticAggsDemo
     config.autoload_paths << "#{config.root}/app/searches"
 
     # Configure Browserify to use babelify to compile ES6
-    config.browserify_rails.commandline_options = "-t [ babelify --presets [ es2015 ] ]"
+    config.browserify_rails.commandline_options = "-t [ babelify --presets [ es2015 es2016 stage-2 stage-0 ] ]"
   end
 end

@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
 
-  get "weather_readings/autocomplete" => "weather_readings#autocomplete"
-  resources :weather_readings, only: [:index]
-  resources :weather_stations
+  get "featured_properties/autocomplete" => "featured_properties#autocomplete"
+  resources :featured_properties, only: [:index]
 
-  root "weather_readings#index"
+  root "featured_properties#index"
 end

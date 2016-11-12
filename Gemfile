@@ -6,10 +6,6 @@ gem 'pg'
 gem 'puma', '~> 3.0'
 
 #==> Full-text search
-# For minute configurations
-gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
-gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
-# For simple DSL
 gem 'searchkick'
 
 gem 'awesome_print'

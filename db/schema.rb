@@ -10,38 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518144053) do
+ActiveRecord::Schema.define(version: 20161112025606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "weather_readings", force: :cascade do |t|
-    t.string   "station"
-    t.date     "reading_date"
-    t.string   "reading_type"
-    t.integer  "reading_value"
-    t.string   "measurement_flag"
-    t.string   "quality_flag"
-    t.string   "source_flag"
-    t.integer  "observation_time"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["reading_date", "reading_type"], name: "index_weather_readings_on_reading_date_and_reading_type", using: :btree
+  create_table "featured_properties", force: :cascade do |t|
+    t.datetime "end_date"
+    t.datetime "start_time"
+    t.string   "notes"
+    t.datetime "published_at"
+    t.integer  "property_container_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["property_container_id"], name: "index_featured_properties_on_property_container_id", using: :btree
   end
 
-  create_table "weather_stations", force: :cascade do |t|
-    t.string   "station_id"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.float    "elevation"
-    t.string   "state"
+  create_table "property_containers", force: :cascade do |t|
     t.string   "name"
-    t.string   "gsn_flag"
-    t.string   "hcn_flag"
-    t.string   "wmo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["station_id"], name: "index_weather_stations_on_station_id", using: :btree
   end
 
+  add_foreign_key "featured_properties", "property_containers"
 end
