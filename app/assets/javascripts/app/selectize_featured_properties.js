@@ -28,23 +28,35 @@ let selectizeObject = null;
 function selectizeFeaturedProperties() {
   console.log("selectizeFeaturedProperties");
 
+  // Reject if there is no element with the elementSelector in DOM.
   if (!elementExist(elementSelector) ) { return; }
-  if (selectizeObject) { return; }
+
+  // De-allocate if selectize has already been instantiated.
+  if (selectizeObject) {
+    selectizeObject.destroy();
+  }
 
   // https://github.com/selectize/selectize.js/blob/master/docs/usage.md#data_searching
   const $selectizedElement = $(elementSelector).selectize({
-      valueField : 'property_container_name', // For the values to submit.
-      labelField : 'property_container_name', // For the tags in the input field.
-      searchField: ['property_container_name', 'notes'],
-      render     : { option: renderOption },
-      load       : load,
-      onLoad     : onLoad,
-      onItemAdd  : onItemAdd,
-      preload    : false,
+      valueField   : 'property_container_name', // For the values to submit.
+      labelField   : 'property_container_name', // For the tags in the input field.
+      searchField  : ['property_container_name', 'notes'],
+      render       : { option: renderOption },
+      load         : load,
+      onLoad       : onLoad,
+      onChange     : onChange,
+      preload      : false,
+      placeholder  : "Type a keyword and select...",
   })[0];
 
   // Store the reference to the selectize instance.
+  // https://github.com/selectize/selectize.js/blob/master/docs/api.md#selectize-api
   selectizeObject = $selectizedElement.selectize;
+
+  // Set up the clear button.
+  $('button[type="reset"]').on('click', function(){
+    selectizeObject.clear();
+  });
 }
 
 
@@ -77,8 +89,9 @@ function onLoad(data) {
   console.log("selectizeFeaturedProperties:onLoad");
 }
 
-function onItemAdd(value, $item) {
-  console.log("selectizeFeaturedProperties:onItemAdd");
+function onChange(value) {
+  console.log("selectizeFeaturedProperties:onChange => ", value);
+  $('button[type="submit"]').click();
 }
 
 function renderOption(item, escape) {
