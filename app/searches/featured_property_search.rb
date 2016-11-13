@@ -50,6 +50,10 @@ class FeaturedPropertySearch
   private def where
     where = {}
 
+    # comma-separated multi-item string
+    if search_params[:property_container_name].present?
+      where[:property_container_name] = search_params[:property_container_name].split(",")
+    end
 
     ap where
     return where
