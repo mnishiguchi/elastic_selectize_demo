@@ -12,6 +12,8 @@ window.require = require;
 // Store the reference to the selectize instance.
 let selectize = null;
 
+const elementSelector = '#q.selectize_featured_properties';
+
 
 // ---
 // PUBLIC FUNCTIONS
@@ -25,8 +27,10 @@ function selectizeFeaturedProperties() {
   console.log("selectizeFeaturedProperties");
 
   if (selectize) { return; }
+  if ( !elementExist(elementSelector) ) { return; }
 
-  const $elem = $('#selectize_featured_properties').selectize({
+  // https://github.com/selectize/selectize.js/blob/master/docs/usage.md#data_searching
+  const $elem = $(elementSelector).selectize({
       valueField : 'property_container_id',
       labelField : 'property_container_name',
       searchField: 'property_container_name',
@@ -43,6 +47,10 @@ function selectizeFeaturedProperties() {
 // PRIVATE FUNCTIONS
 // ---
 
+
+function elementExist(elementSelector) {
+  return $(elementSelector).length;
+}
 
 function load(query, callback) {
     if (!query.length) { return callback(); }

@@ -1,7 +1,7 @@
 = form_tag featured_properties_path, method: :get, remote:true do |f|
   .row
     .col-md-10
-      input#selectize_featured_properties [placeholder="Search keyword..."]
+      input#q.selectize_featured_properties [placeholder="Search keyword..."]
     .col-md-2
       button.btn.btn-primary.pull-right [type="submit"]
         = fa_icon("search")
@@ -20,7 +20,7 @@ javascript:
   
     function elementExist(id) { return $(id).length; }
   
-    if ( elementExist('#selectize_featured_properties') ) { 
+    if ( elementExist('#q.selectize_featured_properties') ) { 
       window.app.selectizeFeaturedProperties(); 
     }
   })

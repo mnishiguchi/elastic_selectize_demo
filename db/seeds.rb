@@ -3,12 +3,12 @@ FeaturedProperty.delete_all
 PropertyContainer.delete_all
 
 # Create PropertyContainer that have many featured_properties.
-3.times do
+30.times do
   PropertyContainer.create!(name: Faker::Name.name)
 end
 
 PropertyContainer.all.each do |container|
-  30.times do
+  3.times do
     container.featured_properties.create!(
       :start_at     => Date.yesterday,
       :end_at       => Date.tomorrow,
