@@ -56,6 +56,7 @@ function selectizeFeaturedProperties() {
   // Set up the clear button.
   $('button[type="reset"]').on('click', function(){
     selectizeObject.clear();
+    clearQueryString();
   });
 }
 
@@ -67,6 +68,10 @@ function selectizeFeaturedProperties() {
 
 function elementExist(elementSelector) {
   return $(elementSelector).length;
+}
+
+function clearQueryString() {
+  history.pushState(null, "", location.href.split("?")[0]);
 }
 
 function load(query, callback) {

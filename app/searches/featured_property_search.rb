@@ -66,18 +66,19 @@ class FeaturedPropertySearch
     { search_params[:sort_attribute] => order }
   end
 
-  # Arguments can be either strings or integers.
-  private def date_to_time_object(year, month, day)
-    [year, month, day].join("-").to_time
-  end
+  # # Arguments can be either strings or integers.
+  # private def date_to_time_object(year, month, day)
+  #   [year, month, day].join("-").to_time
+  # end
 
   # This can be used for displaying active filters in UI.
   private def active_filters
     @active_filters ||= begin
       slice = [
         "q",
-        "sort_attribute",
-        "sort_order",
+        "property_container_name",
+        # "sort_attribute",
+        # "sort_order",
       ]
       search_params.to_h.slice(*slice).reject { |_, v| v.blank? }
     end
