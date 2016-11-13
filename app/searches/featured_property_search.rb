@@ -50,9 +50,21 @@ class FeaturedPropertySearch
   private def where
     where = {}
 
-    # comma-separated multi-item string
+    # param => comma-separated multi-item string
+    # where => array of strings
     if search_params[:property_container_name].present?
       where[:property_container_name] = search_params[:property_container_name].split(",")
+    end
+
+    # param => "Published" or "Unpublished"
+    # where => Time or nil
+    if search_params[:publish_status].present?
+      case search_params[:publish_status]
+      when "Published"
+        where[:published_at] = { gt: Time.at(0).to_datetime }
+      when "Unpublished"
+        where[:published_at] = nil
+      end
     end
 
     ap where
@@ -77,8 +89,8 @@ class FeaturedPropertySearch
       slice = [
         "q",
         "property_container_name",
-        # "sort_attribute",
-        # "sort_order",
+        "sort_attribute",
+        "sort_order",
       ]
       search_params.to_h.slice(*slice).reject { |_, v| v.blank? }
     end

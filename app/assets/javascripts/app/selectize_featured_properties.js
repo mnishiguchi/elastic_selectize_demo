@@ -58,6 +58,11 @@ function selectizeFeaturedProperties() {
     selectizeObject.clear();
     clearQueryString();
   });
+
+  // Trigger submit when selection is changed.
+  $('select#publish_status').on('change', function(){
+    $('button[type="submit"]').click();
+  });
 }
 
 

@@ -42,11 +42,14 @@ Visit localhose:3000
 ```slim
 = form_tag featured_properties_path, method: :get, remote: true do |f|
   .row
-    .col-md-10
+    .col-md-9
       input#selectize_featured_properties [name="property_container_name"]
-    .col-md-2
-      button.btn.btn-primary.pull-right [type="submit"]
-        = fa_icon("search")
+    .col-md-3
+      .pull-right
+        button.btn.btn-secondary [type="reset"]
+          = fa_icon("times")
+        button.btn.btn-primary [type="submit" hidden]
+          = fa_icon("search")
 ```
 
 #### The `input` tag

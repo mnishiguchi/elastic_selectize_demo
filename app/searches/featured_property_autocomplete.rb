@@ -11,6 +11,7 @@ class FeaturedPropertyAutocomplete < FeaturedPropertySearch
     ap active_filters
     puts
 
+    # Selectize.js requires us to return a json object for the suggestion list.
     {
       results: results
     }
