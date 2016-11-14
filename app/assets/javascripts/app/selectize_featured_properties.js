@@ -12,7 +12,7 @@
 window.require = require;
 
 // Specify the selector of the element that will be selectized.
-const elementSelector = '#selectize_featured_properties';
+const elementSelector = '#property_container_name';
 
 let selectizeObject = null;
 
@@ -54,14 +54,33 @@ function selectizeFeaturedProperties() {
   selectizeObject = $selectizedElement.selectize;
 
   // Set up the clear button.
-  $('button[type="reset"]').on('click', function(){
-    selectizeObject.clear();
+  $('button[type="reset"]').on('click', function(event){
+    // Prevent select tags from being reset.
+    event.preventDefault();
+
+    // Remove the entire query string.
     clearQueryString();
+
+    // Clear all the selected selectize items.
+    selectizeObject.clear();
   });
 
   // Trigger submit when selection is changed.
   $('select#publish_status').on('change', function(){
     $('button[type="submit"]').click();
+  });
+
+  // Add loading message when submit button is clicked.
+  $('button[type="submit"]').on('click', function(){
+    $('#search_result table').append(`
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);">
+        <div class="h2" style="color:white;position:absolute;top:40vh;left:40vw;">
+          <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+          <span class="sr-only">Loading...</span>
+          Loading...
+        </div>
+      </div>
+    `);
   });
 }
 
@@ -70,6 +89,10 @@ function selectizeFeaturedProperties() {
 // PRIVATE FUNCTIONS
 // ---
 
+
+// function clearSelectTag(elementSelector) {
+//   document.querySelector(elementSelector).selectedIndex = 0;
+// }
 
 function elementExist(elementSelector) {
   return $(elementSelector).length;
