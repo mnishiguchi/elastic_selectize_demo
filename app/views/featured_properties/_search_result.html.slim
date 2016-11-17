@@ -4,7 +4,8 @@
     .card-block
       p.card-text Nothing was found...
 - else
-  = paginate @featured_properties
+  = paginate @featured_properties, remote: true
+  
   table.table-bordered[style="width:100%;"]
     thead
       tr
@@ -26,3 +27,4 @@
           td = pretty_datetime(featured_property.end_at)
           td = link_to("Edit", "#")
  
+  = paginate @featured_properties, remote: true

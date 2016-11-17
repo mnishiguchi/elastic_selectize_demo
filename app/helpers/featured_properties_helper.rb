@@ -32,17 +32,6 @@ module FeaturedPropertiesHelper
   # ---
 
 
-  def property_container_id_select_tag(params)
-    options = []
-    select_tag(
-      "property_container_id",
-      options_for_select(options, params[:property_container_id]),
-      include_blank: true,
-      id: "selectize_featured_properties",
-      class: "form-control"
-    )
-  end
-
   def publish_status_select_tag(params)
     options = %w(published unpublished).map(&:titleize)
     select_tag(

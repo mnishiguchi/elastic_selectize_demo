@@ -12,7 +12,9 @@
 window.require = require;
 
 // Specify the selector of the element that will be selectized.
-const elementSelector = '#property_container_name';
+const pageSelector              = '#featured_properties_index'
+const selectizedElementSelecter = '#property_container_name';
+const valueField                = 'property_container_name';
 
 let selectizeObject = null;
 
@@ -28,53 +30,31 @@ let selectizeObject = null;
 function selectizeFeaturedProperties() {
   console.log("selectizeFeaturedProperties");
 
-  // Reject if there is no element with the elementSelector in DOM.
-  if (!elementExist(elementSelector) ) { return; }
-
-  // De-allocate if selectize has already been instantiated.
-  if (selectizeObject) {
-    selectizeObject.destroy();
-  }
+  // Reject if there is no element with the selectizedElementSelecter in DOM.
+  if (!$(selectizedElementSelecter).length) { return; }
 
   // https://github.com/selectize/selectize.js/blob/master/docs/usage.md#data_searching
-  const $selectizedElement = $(elementSelector).selectize({
-      valueField   : 'property_container_name', // For the values to submit.
-      labelField   : 'property_container_name', // For the tags in the input field.
-      searchField  : ['property_container_name', 'notes'],
+  // https://github.com/selectize/selectize.js/blob/master/docs/api.md#selectize-api
+  selectizeObject = $(selectizedElementSelecter).selectize({
+      valueField   : valueField, // For the values to submit.
+      labelField   : valueField, // For the tags in the input field.
+      searchField  : [valueField, 'notes'],
       render       : { option: renderOption },
       load         : load,
       onLoad       : onLoad,
       onChange     : onChange,
-      preload      : false,
       placeholder  : "Type a keyword and select...",
-  })[0];
+  })[0].selectize;
 
-  // Store the reference to the selectize instance.
-  // https://github.com/selectize/selectize.js/blob/master/docs/api.md#selectize-api
-  selectizeObject = $selectizedElement.selectize;
 
-  // Set up the clear button.
-  $('button[type="reset"]').on('click', function(event){
-    // Prevent select tags from being reset.
-    event.preventDefault();
-
-    // Remove the entire query string.
-    clearQueryString();
-
-    // Clear all the selected selectize items.
-    selectizeObject.clear();
-  });
-
-  // Trigger submit when selection is changed.
-  $('select#publish_status').on('change', function(){
-    $('button[type="submit"]').click();
-  });
+  // Trigger submit when selectboxes are changed.
+  $(`${pageSelector} select`).on('change', submit);
 
   // Add loading message when submit button is clicked.
-  $('button[type="submit"]').on('click', function(){
+  $(selectizedElementSelecter).on('submit', function(){
     $('#search_result table').append(`
-      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);">
-        <div class="h2" style="color:white;position:absolute;top:40vh;left:40vw;">
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.4);">
+        <div class="h2" style="color:#666;position:absolute;top:40vh;left:40vw;">
           <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
           <span class="sr-only">Loading...</span>
           Loading...
@@ -90,16 +70,21 @@ function selectizeFeaturedProperties() {
 // ---
 
 
-// function clearSelectTag(elementSelector) {
-//   document.querySelector(elementSelector).selectedIndex = 0;
+// function clearSelectTag(selectizedElementSelecter) {
+//   document.querySelector(selectizedElementSelecter).selectedIndex = 0;
 // }
 
-function elementExist(elementSelector) {
-  return $(elementSelector).length;
-}
+// function elementExist(selectizedElementSelecter) {
+//   return $(selectizedElementSelecter).length;
+// }
 
-function clearQueryString() {
-  history.pushState(null, "", location.href.split("?")[0]);
+// function clearQueryString() {
+//   history.pushState(null, "", location.href.split("?")[0]);
+// }
+
+
+function submit() {
+    $(selectizedElementSelecter).submit();
 }
 
 function load(query, callback) {
@@ -109,10 +94,11 @@ function load(query, callback) {
         url: `../featured_properties/autocomplete.json?q=${encodeURIComponent(query)}`,
         type: 'GET',
         error: reason => {
-            callback(reason);
+            console.error(reason);
+            callback();
         },
         success: res => {
-            console.log(res.results)
+            console.log(res.results);
             callback(res.results.slice(0, 10));
         }
     });
@@ -124,7 +110,7 @@ function onLoad(data) {
 
 function onChange(value) {
   console.log("selectizeFeaturedProperties:onChange => ", value);
-  $('button[type="submit"]').click();
+  $(selectizedElementSelecter).submit();
 }
 
 function renderOption(item, escape) {
