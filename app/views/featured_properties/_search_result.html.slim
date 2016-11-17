@@ -16,15 +16,6 @@
         th Start Date
         th End Date
         th
-    tbody
-      - @featured_properties.each do |featured_property|
-        tr
-          td = featured_property.property_container&.name
-          td = featured_property.published? ? "#{time_ago_in_words(featured_property.published_at)} ago" : "Unpublished"
-          td 
-          td = featured_property.notes
-          td = pretty_datetime(featured_property.start_at)
-          td = pretty_datetime(featured_property.end_at)
-          td = link_to("Edit", "#")
- 
+    tbody = render @featured_properties
+
   = paginate @featured_properties, remote: true

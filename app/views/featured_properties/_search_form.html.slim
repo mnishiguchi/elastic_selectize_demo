@@ -1,4 +1,4 @@
-= form_tag featured_properties_path, method: :get, remote: true do |f|
+= form_tag featured_properties_path, method: :get, remote: true do
   .row
     .col-md-9
       input#property_container_name [name="property_container_name"]
@@ -19,5 +19,5 @@
 javascript: 
 
   $(document).on('turbolinks:load', function() {
-    window.app.selectizeFeaturedProperties();
+      window.app.selectizeFeaturedProperties();
   })
