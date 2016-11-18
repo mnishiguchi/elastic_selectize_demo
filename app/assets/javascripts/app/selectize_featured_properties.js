@@ -50,7 +50,7 @@ function selectizeFeaturedProperties() {
 
     // Add loading message when submit button is clicked.
     $(selectizedElementSelecter).on('submit', () => {
-        updateQueryString();
+        updateQueryStringAndReplaceState();
         showLoadingMessage();
     });
 }
@@ -61,11 +61,7 @@ function selectizeFeaturedProperties() {
 // ---
 
 
-// function clearQueryString() {
-//     history.replaceState(null, "", location.href.split("?")[0]);
-// }
-
-function updateQueryString() {
+function updateQueryStringAndReplaceState() {
     // Generate a query string for the current form state.
     const queryString = $(`${pageSelector} form`).serialize();
 

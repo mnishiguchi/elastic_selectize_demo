@@ -1,13 +1,6 @@
 = form_tag featured_properties_path, method: :get, remote: true do
-  .row
-    .col-md-9
-      input#property_container_name [name="property_container_name"]
-    .col-md-3
-      .pull-right
-        button.btn.btn-secondary [type="reset"]
-          = fa_icon("times")
-        button.btn.btn-primary [type="submit" hidden]
-          = fa_icon("search")
+  input#property_container_name [name="property_container_name"]
+
   br
   .row
     .col-sm-6 = publish_status_select_tag(params)
@@ -16,7 +9,7 @@
   #advanced_search_fields
     = render "advanced_search_fields"
 
-javascript: 
+javascript:
 
   $(document).on('turbolinks:load', function() {
       window.app.selectizeFeaturedProperties();
