@@ -13,15 +13,11 @@
   / Example selectize form
   select#select-repo.repositories[placeholder="Pick a repository..."]
 
-javascript:
-  $(document).on('turbolinks:load', function() {
+javascript:  
   
-    function elementExist(id) { return $(id).length; }
-  
-    if ( elementExist('#select-repo') ) { 
-      window.app.selectizeGithubSearch(); 
+    if ($('#select-repo').length) { 
+        window.app.selectizeGithubSearch(); 
     }
-  })
 
 css:
   /*

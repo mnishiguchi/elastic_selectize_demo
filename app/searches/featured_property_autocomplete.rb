@@ -14,7 +14,7 @@ class FeaturedPropertyAutocomplete < FeaturedPropertySearch
     # Selectize.js requires us to return a json object for the suggestion list.
     {
       results: results
-    }
+    }.to_json
   end
 
   private def search_constraints

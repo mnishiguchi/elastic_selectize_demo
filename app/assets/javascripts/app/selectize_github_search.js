@@ -15,6 +15,9 @@ window.require = require;
 module.exports = function() {
     console.log("hello from selectize_github_search.js");
 
+    // Reject if the selectize has already been initialized.
+    if (isAlreadyTransformed()) { return; }
+
     $('#select-repo').selectize({
         valueField : 'url',
         labelField : 'name',
@@ -31,6 +34,11 @@ module.exports = function() {
 // PRIVATE FUNCTIONS
 // ---
 
+
+// https://github.com/turbolinks/turbolinks#making-transformations-idempotent
+function isAlreadyTransformed() {
+    return $('.selectize-control').length;
+}
 
 function score(search) {
     var score = this.getScoreFunction(search);

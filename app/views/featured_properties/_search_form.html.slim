@@ -11,6 +11,4 @@
 
 javascript:
 
-  $(document).on('turbolinks:load', function() {
-      window.app.selectizeFeaturedProperties();
-  })
+    window.app.selectizeFeaturedProperties(#{raw @json});
