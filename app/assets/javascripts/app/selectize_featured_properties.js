@@ -1,20 +1,24 @@
+// http://stackoverflow.com/a/32082914/3837223
 window.require = require;
 
-const selectizeInput = require('./selectize_input');
+const initializeSelectize = require('./initialize_selectize');
 
-function selectizeFeaturedProperties(initialItems=[]) {
+function selectizeFeaturedProperties(initialOptionItems=[]) {
 
-    selectizeInput({
-        pageSelector           : '#featured_properties_index',
-        selectizeInputSelector : '#property_container_name',
-        transformationSelector : '.selectize-control',
-        valueField             : 'property_container_name', // For the values to submit.
-        labelField             : 'property_container_name', // For the tags in the input field.
-        searchField            : [ 'property_container_name', 'notes' ],
-        initialItems           : initialItems,
-        autocompletePath       : '/featured_properties/autocomplete.json',
-        placeholder            : "Type a keyword and select...",
-        optionListTemplate     : function (item, escape) {
+    initializeSelectize({
+        initialOptionItems: initialOptionItems,
+        selectors         : {
+                              scope          : '#featured_properties_index',
+                              selectizeInput : '#property_container_name',
+                              transformation : '.selectize-control',
+                              searchResult   : '#search_result',
+        },
+        valueField        : 'property_container_name', // For the values to submit.
+        labelField        : 'property_container_name', // For the tags in the input field.
+        searchField       : [ 'property_container_name', 'notes' ],
+        autocompletePath  : '/featured_properties/autocomplete.json',
+        placeholder       : 'Type a keyword and select...',
+        optionListTemplate: function (item, escape) {
             return (`
                 <div>
                   <span class="title">
