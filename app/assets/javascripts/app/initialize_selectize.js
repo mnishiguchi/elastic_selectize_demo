@@ -1,80 +1,83 @@
+/*******************************************************************************
+==> Overview
+----------------
+This module provides a function that initialzes the selectize.js library as
+specified in the passed-in params.
+
+==> Assumptions
+----------------
++ Rails 5 with turbolinks and browserify-rails.
++ We submit the form by Ajax with the `remote` option set to `true`
++ We use selectize.js that transforms the the input field to a suggestion list
++ A query string always reflects the current state of the form values
++ We want to trigger the form submission when any change in form input values
++ We want to replace history every time the form is submitted
++ We can navigate through the history back and forth and each page shows as
+the query string indicates.
+
+==> About Browserify
+----------------
++ https://github.com/substack/browserify-handbook#exports
+
+==> About Selectize
+----------------
++ https://github.com/selectize/selectize.js/tree/master/docs
++ https://selectize.github.io/selectize.js/#demo-github
++ https://github.com/selectize/selectize.js/blob/master/examples/github.html
+
+==> Making Transformations Idempotent
+https://github.com/turbolinks/turbolinks#making-transformations-idempotent
+----------------
++ We need to detect whether selectize has already been initialized so that we
+can avoid duplicate selectize controls. See `isAlreadyTransformed()`.
+  * e.g. If yes, set up; if no, do nothing.
+
+==> Usage
+---------------
+function selectizeFeaturedProperties(initialOptionItems=[]) {
+
+    initializeSelectize({
+        initialOptionItems: initialOptionItems,
+        selectors         : {
+                              scope          : '#featured_properties_index',
+                              selectizeInput : '#property_container_name',
+                              transformation : '.selectize-control',
+                              searchResult   : '#search_result',
+        },
+        valueField        : 'property_container_name', // For the values to submit.
+        labelField        : 'property_container_name', // For the tags in the input field.
+        searchField       : [ 'property_container_name', 'notes' ],
+        autocompletePath  : '/featured_properties/autocomplete.json',
+        placeholder       : 'Type a keyword and select...',
+        optionListTemplate: function (item, escape) {
+            return (`
+                <div>
+                  <span class="title">
+                    <span class="name">${escape(item.property_container_name)}</span>
+                  </span>
+                  <span class="notes">
+                    ${escape(item.notes)}
+                  </span>
+                  <ul class="meta">
+                    <li class="created_at">
+                      <span>${escape(item.created_at)}</span>
+                    </li>
+                    <li class="updated_at">
+                      <span>${escape(item.updated_at)}</span>
+                    </li>
+                  </ul>
+                </div>
+            `);
+        },
+    });
+}
+*******************************************************************************/
+
 // http://stackoverflow.com/a/32082914/3837223
 window.require = require;
 
-// ==> Overview
-// ----------------
-// This module provides a function that initialzes the selectize.js library as
-// specified in the passed-in params.
-
-// ==> Assumptions
-// ----------------
-// + Rails 5 with turbolinks and browserify-rails.
-// + We submit the form by Ajax with the `remote` option set to `true`
-// + We use selectize.js that transforms the the input field to a suggestion list
-// + A query string always reflects the current state of the form values
-// + We want to trigger the form submission when any change in form input values
-// + We want to replace history every time the form is submitted
-// + We can navigate through the history back and forth and each page shows as
-// the query string indicates.
-
-// ==> About Browserify
-// ----------------
-// + https://github.com/substack/browserify-handbook#exports
-
-// ==> About Selectize
-// ----------------
-// + https://github.com/selectize/selectize.js/tree/master/docs
-// + https://selectize.github.io/selectize.js/#demo-github
-// + https://github.com/selectize/selectize.js/blob/master/examples/github.html
-
-// ==> Making Transformations Idempotent
-// https://github.com/turbolinks/turbolinks#making-transformations-idempotent
-// ----------------
-// + We need to detect whether selectize has already been initialized so that we
-// can avoid duplicate selectize controls. See `isAlreadyTransformed()`.
-//   * e.g. If yes, set up; if no, do nothing.  
-
-// ==> Usage
-// ---------------
-// function selectizeFeaturedProperties(initialOptionItems=[]) {
-//
-//     initializeSelectize({
-//         initialOptionItems: initialOptionItems,
-//         selectors         : {
-//                               scope          : '#featured_properties_index',
-//                               selectizeInput : '#property_container_name',
-//                               transformation : '.selectize-control',
-//                               searchResult   : '#search_result',
-//         },
-//         valueField        : 'property_container_name', // For the values to submit.
-//         labelField        : 'property_container_name', // For the tags in the input field.
-//         searchField       : [ 'property_container_name', 'notes' ],
-//         autocompletePath  : '/featured_properties/autocomplete.json',
-//         placeholder       : 'Type a keyword and select...',
-//         optionListTemplate: function (item, escape) {
-//             return (`
-//                 <div>
-//                   <span class="title">
-//                     <span class="name">${escape(item.property_container_name)}</span>
-//                   </span>
-//                   <span class="notes">
-//                     ${escape(item.notes)}
-//                   </span>
-//                   <ul class="meta">
-//                     <li class="created_at">
-//                       <span>${escape(item.created_at)}</span>
-//                     </li>
-//                     <li class="updated_at">
-//                       <span>${escape(item.updated_at)}</span>
-//                     </li>
-//                   </ul>
-//                 </div>
-//             `);
-//         },
-//     });
-// }
-
-
+// Make the config object that is passed in from outside be available throughout
+// this file.
 let config;
 
 
@@ -94,7 +97,7 @@ function initializeSelectize(params) {
     // Reject if there is no element with the selectizeInputSelector in DOM.
     // Reject if the selectize has already been initialized.
     // NOTE: This is important to avoid initializing selectize twice.
-    if (!selectorExists() || isAlreadyTransformed()) { return; }
+    if (!selectizeInputSelectorExists() || isAlreadyTransformed()) { return; }
 
     let selectedItems = getCurrentlySelectedItems();
 
@@ -148,16 +151,16 @@ function listenForFormSubmit() {
  * Reads a list of currently selected items from the query string.
  */
 function getCurrentlySelectedItems() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const values    = urlParams.get(config.valueField);
+    const urlParams = new URLSearchParams(window.location.search);
+    const values    = urlParams.get(config.valueField);
 
-  if (values) { return values.split(','); }
+    if (values) { return values.split(','); }
 }
 
 /**
  * @return {Boolean} true if the selectizeInputSelector exists in the DOM.
  */
-function selectorExists() {
+function selectizeInputSelectorExists() {
     return $(config.selectors.selectizeInput).length;
 }
 
@@ -170,13 +173,16 @@ function isAlreadyTransformed() {
     return $(config.selectors.transformation).length;
 }
 
+/**
+ * Generates a query string that reflects the current state of the form and
+ * replaces the history state for the page with the generated query string.
+ */
 function updateQueryStringAndReplaceState() {
     // Generate a query string for the current form state.
     const queryString = $(`${config.selectors.scope} form`).serialize();
 
-    // Update the query string.
+    // Update the history for the current page.
     history.replaceState(history.state, '', `?${queryString}`);
-    return queryString;
 }
 
 /**
@@ -208,16 +214,15 @@ function load(query, callback) {
 
 /**
  * Shows a loading message that will be removed when search results are updated.
- * NOTE: The message is appended to the element that is specified in the config.
+ * NOTE: The message is appended to the element that is specified in the config
+ * so that the message will be removed automatically when the results are updated.
  */
 function showLoadingMessage() {
+    // The loading message relies on the pure-css-loader library's css file.
+    // https://github.com/raphaelfabeni/css-loader
     $(config.selectors.searchResult).append(`
-        <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.4);">
-          <div class="h2" style="color:#666;position:absolute;top:40vh;left:40vw;">
-            <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
-            <span class="sr-only">Loading...</span>
-            Loading...
-          </div>
+        <div style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          <div class="loader loader-default is-active"></div>
         </div>
     `);
 }
